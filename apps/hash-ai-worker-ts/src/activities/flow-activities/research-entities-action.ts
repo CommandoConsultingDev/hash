@@ -16,6 +16,7 @@ import dedent from "dedent";
 
 import { logger } from "../shared/activity-logger";
 import type { ParsedLlmToolCall } from "../shared/get-llm-response/types";
+import { getEntitySummariesFromText } from "../shared/infer-facts-from-text/get-entity-summaries-from-text";
 import { logProgress } from "../shared/log-progress";
 import { stringify } from "../shared/stringify";
 import { getWebPageSummaryAction } from "./get-web-page-summary-action";
@@ -36,6 +37,12 @@ export const researchEntitiesAction: FlowActionActivity = async ({
   const input = await coordinatingAgent.parseCoordinatorInputs({
     stepInputs,
   });
+
+  await getEntitySummariesFromText({
+    text: "The quick brown fox jumps over the lazy dog.",
+  });
+
+  throw new Error("stop");
 
   /**
    * We start by asking the coordinator agent to create an initial plan
